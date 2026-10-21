@@ -1,4 +1,4 @@
-package com.bappoint.email.application.records;
+package com.bappoint.email.application.value;
 
 public record EmailContent(String subject, String body) {
 }

@@ -10,14 +10,14 @@ import software.amazon.awssdk.services.ses.model.SesException;
 
 @Slf4j
 @Service
-public class SesEmailService implements EmailGateway {
+public class SesEmailGateway implements EmailGateway {
 
     private final SesClient sesClient;
 
     @Value("${aws.ses.from}")
     private String from;
 
-    public SesEmailService(SesClient sesClient) {
+    public SesEmailGateway(SesClient sesClient) {
         this.sesClient = sesClient;
     }
 

@@ -1,6 +1,6 @@
-package com.bappoint.email;
+package com.bappoint.email.application.domain;
 
-public enum EmailStatus {
+public enum EmailType {
     PENDING,
     SENT,
     DELIVERED,

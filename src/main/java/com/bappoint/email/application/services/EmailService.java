@@ -1,7 +1,9 @@
-package com.bappoint.email.application.domain;
+package com.bappoint.email.application.services;
 
+import com.bappoint.email.application.command.SendEmailCommand;
+import com.bappoint.email.application.domain.EmailKey;
 import com.bappoint.email.application.strategy.EmailStrategy;
-import com.bappoint.email.application.records.EmailContent;
+import com.bappoint.email.application.value.EmailContent;
 import com.bappoint.email.adapter.in.rabbitmq.EmailDto;
 import com.bappoint.email.application.port.out.EmailGateway;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ public class EmailService {
 
     private final EmailGateway emailGateway;
 
-    private final Map<String, EmailStrategy> strategies;
+    private final Map<EmailKey, EmailStrategy> strategies;
 
     public EmailService(List<EmailStrategy> strategyList, EmailGateway emailGateway) {
         this.emailGateway = emailGateway;
@@ -25,12 +27,12 @@ public class EmailService {
                 .collect(Collectors.toMap(EmailStrategy::type, Function.identity()));
     }
 
-    public void sendEmail(EmailDto dto) {
-        String type = dto.getKey();
-        String emailTo = dto.getEmailTo();
+    public void sendEmail(SendEmailCommand command) {
+        EmailKey type = command.type();
+        String emailTo = command.emailTo();
         EmailStrategy strategy = strategies.get(type);
         if (strategy != null) {
-            EmailContent content = strategies.get(type).buildEmail(dto);
+            EmailContent content = strategies.get(type).buildEmail(command);
 
             emailGateway.send(emailTo, content);
 

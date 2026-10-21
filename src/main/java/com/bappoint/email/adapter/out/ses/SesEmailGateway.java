@@ -1,6 +1,7 @@
-package com.bappoint.email.service;
+package com.bappoint.email.adapter.out.ses;
 
-import com.bappoint.email.dto.EmailContent;
+import com.bappoint.email.application.port.out.EmailGateway;
+import com.bappoint.email.application.value.EmailContent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

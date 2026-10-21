@@ -4,7 +4,6 @@ import com.bappoint.email.application.command.SendEmailCommand;
 import com.bappoint.email.application.domain.EmailKey;
 import com.bappoint.email.application.strategy.EmailStrategy;
 import com.bappoint.email.application.value.EmailContent;
-import com.bappoint.email.adapter.in.rabbitmq.EmailDto;
 import com.bappoint.email.application.port.out.EmailGateway;
 import org.springframework.stereotype.Service;
 

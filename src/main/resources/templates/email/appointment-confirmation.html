@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Confirmation</title>
+</head>
+
+<body style="
+    margin: 0;
+    padding: 0;
+    background-color: #f4f6f8;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #1f2937;
+">
+
+<table role="presentation"
+       width="100%"
+       cellspacing="0"
+       cellpadding="0"
+       border="0"
+       style="background-color: #f4f6f8; padding: 32px 12px;">
+
+    <tr>
+        <td align="center">
+
+            <!-- Email Container -->
+            <table role="presentation"
+                   width="100%"
+                   cellspacing="0"
+                   cellpadding="0"
+                   border="0"
+                   style="
+                       max-width: 600px;
+                       background-color: #ffffff;
+                       border-radius: 12px;
+                       overflow: hidden;
+                   ">
+
+                <!-- Header -->
+                <tr>
+                    <td style="
+                        background-color: #2563eb;
+                        padding: 28px 24px;
+                        text-align: center;
+                    ">
+                        <h1 style="
+                            margin: 0;
+                            color: #ffffff;
+                            font-size: 26px;
+                            font-weight: 700;
+                        ">
+                            bAppoint
+                        </h1>
+
+                        <p style="
+                            margin: 8px 0 0;
+                            color: #dbeafe;
+                            font-size: 14px;
+                        ">
+                            Appointment Confirmation
+                        </p>
+                    </td>
+                </tr>
+
+                <!-- Main Content -->
+                <tr>
+                    <td style="padding: 32px 28px;">
+
+                        <!-- Success Icon -->
+                        <div style="
+                            width: 52px;
+                            height: 52px;
+                            line-height: 52px;
+                            margin: 0 auto 20px;
+                            background-color: #dcfce7;
+                            color: #15803d;
+                            border-radius: 50%;
+                            text-align: center;
+                            font-size: 28px;
+                            font-weight: bold;
+                        ">
+                            &#10003;
+                        </div>
+
+                        <h2 style="
+                            margin: 0 0 16px;
+                            text-align: center;
+                            font-size: 23px;
+                            color: #111827;
+                        ">
+                            Your Appointment Is Confirmed!
+                        </h2>
+
+                        <p style="
+                            margin: 0 0 24px;
+                            font-size: 15px;
+                            line-height: 1.7;
+                            color: #4b5563;
+                        ">
+                            Hello,
+                            <strong th:text="${name}">John Smith</strong>!
+                            <br><br>
+
+                            Great news! Your appointment has been
+                            successfully confirmed.
+
+                            Please review the details below and keep
+                            this email for your reference.
+                        </p>
+
+                        <!-- Appointment Details -->
+                        <table role="presentation"
+                               width="100%"
+                               cellspacing="0"
+                               cellpadding="0"
+                               border="0"
+                               style="
+                                   background-color: #f9fafb;
+                                   border: 1px solid #e5e7eb;
+                                   border-radius: 8px;
+                               ">
+
+                            <tr>
+                                <td style="padding: 20px;">
+
+                                    <h3 style="
+                                        margin: 0 0 20px;
+                                        font-size: 16px;
+                                        color: #111827;
+                                    ">
+                                        Appointment Details
+                                    </h3>
+
+                                    <!-- Service -->
+                                    <p style="
+                                        margin: 0 0 6px;
+                                        font-size: 12px;
+                                        color: #6b7280;
+                                    ">
+                                        SERVICE
+                                    </p>
+
+                                    <p style="
+                                        margin: 0 0 18px;
+                                        font-size: 15px;
+                                        font-weight: bold;
+                                        color: #111827;
+                                    "
+                                       th:text="${serviceName}">
+                                        Men's Haircut
+                                    </p>
+
+                                    <!-- Date -->
+                                    <p style="
+                                        margin: 0 0 6px;
+                                        font-size: 12px;
+                                        color: #6b7280;
+                                    ">
+                                        DATE
+                                    </p>
+
+                                    <p style="
+                                        margin: 0 0 18px;
+                                        font-size: 15px;
+                                        font-weight: bold;
+                                        color: #111827;
+                                    "
+                                       th:text="${date}">
+                                        October 25, 2026
+                                    </p>
+
+                                    <!-- Time -->
+                                    <p style="
+                                        margin: 0 0 6px;
+                                        font-size: 12px;
+                                        color: #6b7280;
+                                    ">
+                                        TIME
+                                    </p>
+
+                                    <p style="
+                                        margin: 0 0 18px;
+                                        font-size: 15px;
+                                        font-weight: bold;
+                                        color: #111827;
+                                    "
+                                       th:text="${time}">
+                                        2:30 PM
+                                    </p>
+
+                                    <!-- Business -->
+                                    <p style="
+                                        margin: 0 0 6px;
+                                        font-size: 12px;
+                                        color: #6b7280;
+                                    ">
+                                        BUSINESS
+                                    </p>
+
+                                    <p style="
+                                        margin: 0;
+                                        font-size: 15px;
+                                        font-weight: bold;
+                                        color: #111827;
+                                    "
+                                       th:text="${companyName}">
+                                        Ennis Barber Shop
+                                    </p>
+
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Additional Information -->
+                        <p style="
+                            margin: 24px 0 0;
+                            font-size: 14px;
+                            line-height: 1.7;
+                            color: #4b5563;
+                        ">
+                            We recommend arriving a few minutes before
+                            your scheduled appointment.
+
+                            If you need to reschedule or cancel,
+                            please contact the business directly.
+                        </p>
+
+                        <p style="
+                            margin: 24px 0 0;
+                            font-size: 15px;
+                            line-height: 1.7;
+                            color: #374151;
+                        ">
+                            Thank you for choosing
+                            <strong th:text="${companyName}">
+                                Ennis Barber Shop
+                            </strong>!
+                            <br>
+                            We look forward to seeing you.
+                        </p>
+
+                    </td>
+                </tr>
+
+                <!-- Footer -->
+                <tr>
+                    <td style="
+                        padding: 22px 24px;
+                        background-color: #f9fafb;
+                        border-top: 1px solid #e5e7eb;
+                        text-align: center;
+                    ">
+
+                        <p style="
+                            margin: 0 0 8px;
+                            font-size: 13px;
+                            color: #6b7280;
+                        ">
+                            This is an automated appointment confirmation email.
+                        </p>
+
+                        <p style="
+                            margin: 0;
+                            font-size: 12px;
+                            color: #9ca3af;
+                        ">
+                            &copy;
+                            <span th:text="${year}">2026</span>
+                            bAppoint. All rights reserved.
+                        </p>
+
+                    </td>
+                </tr>
+
+            </table>
+
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

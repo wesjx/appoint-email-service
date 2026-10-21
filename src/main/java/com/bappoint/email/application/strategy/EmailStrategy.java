@@ -1,10 +1,12 @@
-package com.bappoint.email.application;
+package com.bappoint.email.application.strategy;
 
-import com.bappoint.email.dto.EmailContent;
-import com.bappoint.email.dto.EmailDto;
+import com.bappoint.email.application.command.SendEmailCommand;
+import com.bappoint.email.application.domain.EmailKey;
+import com.bappoint.email.application.value.EmailContent;
+import com.bappoint.email.adapter.in.rabbitmq.EmailDto;
 
 public interface EmailStrategy {
-    String type();
+    EmailKey type();
 
-    EmailContent buildEmail(EmailDto dto);
+    EmailContent buildEmail(SendEmailCommand command);
 }

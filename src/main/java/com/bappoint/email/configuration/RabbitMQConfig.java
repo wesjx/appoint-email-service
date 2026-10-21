@@ -13,13 +13,13 @@ public class RabbitMQConfig {
 
     @Bean
     public DirectExchange emailExchange(
-            @Value("${spring.rabbitmq.exchange}") String name) {
+            @Value("${app.rabbitmq.exchange}") String name) {
         return new DirectExchange(name, true, false);
     }
 
     @Bean
     public DirectExchange deadLetterExchange(
-            @Value("${spring.rabbitmq.dead-letter-exchange}") String name) {
+            @Value("${app.rabbitmq.dead-letter-exchange}") String name) {
         return new DirectExchange(name, true, false);
     }
 

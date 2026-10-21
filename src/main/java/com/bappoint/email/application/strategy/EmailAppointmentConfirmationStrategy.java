@@ -1,30 +1,40 @@
-package com.bappoint.email.application;
+package com.bappoint.email.application.strategy;
 
-import com.bappoint.email.dto.EmailContent;
-import com.bappoint.email.dto.EmailDto;
+import com.bappoint.email.application.command.SendEmailCommand;
+import com.bappoint.email.application.domain.EmailKey;
+import com.bappoint.email.application.port.out.EmailTemplateRenderer;
+import com.bappoint.email.application.value.EmailContent;
+import com.bappoint.email.adapter.in.rabbitmq.EmailDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class EmailAppointmentConfirmationStrategy implements EmailStrategy {
 
-    private final TemplateEngine templateEngine;
+    private final EmailTemplateRenderer templateRenderer;
 
     @Override
-    public String type() {
-        return "appointment-confirmed";
+    public EmailKey type() {
+        return EmailKey.APPOINTMENT_CONFIRMATION;
     }
 
     @Override
-    public EmailContent buildEmail(EmailDto dto) {
-        Context context = new Context();
-        context.setVariable("name", dto.getUserName());
-        context.setVariable("date", dto.getAppointmentDate());
-
-        String html = templateEngine.process("email/appointment-confirmation", context);
+    public EmailContent buildEmail(SendEmailCommand command) {
+        String html = templateRenderer.render(
+                "email/appointment-confirmation",
+                Map.of(
+                        "name", command.userName(),
+                        "date", command.appointmentDate(),
+                        "time", command.appointmentTime(),
+                        "companyName", command.companyName(),
+                        "serviceName", command.serviceName()
+                )
+        );
         return new EmailContent("Appointment confirmed", html);
     }
 

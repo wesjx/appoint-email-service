@@ -19,8 +19,9 @@ No Actuator dependency, health endpoint, metrics, tracing, structured logging co
 | No strategy found | Enum/strategy mismatch | Use `key: "APPOINTMENT_CONFIRMATION"`; other enum constants have no strategy |
 | SES error appears but broker message disappears | SES exception suppression | `SesEmailGateway` catches `SesException`; it may log and return, allowing normal listener completion/acknowledgement |
 | Dead-letter message is not visible | DLX binding | Application does not declare the configured DLQ or bind it; provision a queue bound to the DLX and routing key, then verify broker topology |
-| Application fails to start due to database | PostgreSQL config/connectivity | Confirm PostgreSQL is reachable at configured URL; the Compose helper maps host port 5433 |
 | Docker container not reachable as expected | Port mismatch | Dockerfile exposes 3030; application defaults to 8081 |
+
+This application does not use a database. If startup reports a `DataSource` configuration error, check for database-related dependencies or external Spring configuration being added to the runtime; PostgreSQL is not a service prerequisite.
 
 Springdoc exposes generated `/v3/api-docs` and `/swagger-ui.html` endpoints by default. These are API-description endpoints, not email submission endpoints. The context-load test does not verify that the consumer successfully declared its queue or is receiving messages.
 
@@ -43,5 +44,5 @@ This repository includes no DLQ consumer, replay command, or automated recovery 
 - Verify that the DLX has a bound DLQ and that retention/alerting policies exist; neither is fully provisioned in the repository.
 - Monitor SES send/reject metrics in AWS; application-level SES failure reporting is incomplete.
 - Restrict access to logs and redact email addresses and request payloads.
-- Check database, RabbitMQ, and AWS availability separately; this service has no unified readiness endpoint.
-- Rotate credentials exposed in the checked-in configuration and deploy only secret-managed replacements.
+- Check RabbitMQ and AWS availability separately; this service has no unified readiness endpoint.
+- Supply credentials through a secret manager or protected environment configuration; do not include secret values in documentation.

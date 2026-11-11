@@ -58,19 +58,17 @@ These records describe technical choices visible in the current implementation. 
 
 **Consequences:** Operators must provision and verify the DLQ binding externally. Retry/reject behavior should be integration-tested against the deployed Spring AMQP version and broker.
 
-## ADR-005: Keep database dependencies/configuration
+## ADR-005: Do not require a database
 
-**Context:** The repository includes PostgreSQL and JPA configuration.
+**Context:** The email worker processes messages through RabbitMQ and sends them through Amazon SES. It has no entity, repository, or persistence behavior.
 
-**Decision (present in build/configuration):** Include Spring Data JPA, PostgreSQL, and a datasource configuration.
+**Decision:** A database is not required by the application. Database configuration and dependencies are not part of the runtime requirements.
 
-**Assessment:** No entity, repository, or email persistence behavior is present. It is unclear whether the database is a future dependency or unused setup.
+**Advantages:** Builds and startup do not require a database service or datasource configuration.
 
-**Advantages:** A database foundation exists if persistence is added.
+**Trade-offs:** The application does not keep a durable processing audit, delivery status, or idempotency record.
 
-**Disadvantages and trade-offs:** Adds an infrastructure dependency and startup/configuration burden without current email-flow value. Flyway properties are present without the Flyway dependency or migration files.
-
-**Consequences:** Confirm whether PostgreSQL is required. If not, remove unused dependencies/configuration; if it is required, implement persistence and migrations with explicit operational requirements.
+**Consequences:** If persistence is introduced later, add its dependencies, schema/migrations, configuration, and operational requirements explicitly.
 
 ## Current limitations
 

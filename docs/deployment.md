@@ -16,7 +16,7 @@ docker build -t bappoint-email-service .
 
 The Dockerfile declares `EXPOSE 3030`, while `application.yaml` configures `server.port: 8081`. The effective Spring port remains 8081 unless overridden. Align the Dockerfile/port mapping before deployment; no health check or container entrypoint wait-for-dependencies is provided.
 
-`compose.yaml` contains only PostgreSQL 16 with a local persistent volume. It is a development database helper, not a complete service deployment. No CI/CD workflow, Kubernetes manifests, Helm chart, or production compose stack is present.
+The application does not require a database. `compose.yaml` does not provide the RabbitMQ broker or run the email service. No CI/CD workflow, Kubernetes manifests, Helm chart, or production compose stack is present.
 
 ## Required infrastructure
 
@@ -26,9 +26,7 @@ Production deployment needs:
 2. A durable work exchange/queue/binding compatible with `app.rabbitmq.*`. The application declares its work topology, but broker permissions must permit it.
 3. A dead-letter exchange plus an explicitly provisioned durable DLQ and binding to the configured dead-letter routing key if dead-letter retention is required.
 4. AWS SES in the region used by `aws.region`, a verified sender matching `aws.ses.from`, credentials/role permissions to submit email, and recipient authorization appropriate to the SES account's sending mode.
-5. PostgreSQL if retaining the configured JPA datasource dependency in the application runtime. No email data persistence is implemented.
-
-Use TLS for broker connections and the deployment platform's secret manager. Do not use the hard-coded credentials in the checked-in YAML. The custom SES client currently uses static basic credentials; prefer workload IAM roles/short-lived credentials after changing the application configuration to support them.
+Use TLS for broker connections and the deployment platform's secret manager. The custom SES client currently uses static basic credentials; prefer workload IAM roles/short-lived credentials after changing the application configuration to support them. Do not put secret values in deployment documentation.
 
 ## Container execution
 
@@ -46,7 +44,7 @@ docker run --rm \
   bappoint-email-service
 ```
 
-This command is illustrative, not directly sufficient with the current YAML: AWS variables are configured under `cloud.aws.*`, while `AmazonSesConfig` reads `aws.accessKeyId` and `aws.secretKey`, currently hard-coded in YAML. Replace those properties with environment/role-based configuration before production. The application does not currently expose environment-variable placeholders for its custom SES credentials.
+This command is illustrative. Ensure the secure runtime configuration supplies the properties read by `AmazonSesConfig` (`aws.accessKeyId` and `aws.secretKey`), or change the application to use an AWS credential provider chain or workload role. Do not write credential values into this document.
 
 ## SES and network setup
 

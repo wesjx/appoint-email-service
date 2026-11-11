@@ -25,7 +25,6 @@ Only `APPOINTMENT_CONFIRMATION` has an email strategy today. Other values in the
 | Jackson JSON message converter | Converts RabbitMQ JSON payloads to `EmailDto` |
 | Thymeleaf | Renders the appointment-confirmation HTML template |
 | AWS SDK for Java / Amazon SES | Submits rendered messages to SES |
-| PostgreSQL, Spring Data JPA | Database driver and configured datasource; no email persistence code is present |
 | Maven Wrapper | Reproducible Maven build entry point |
 
 ## Architecture
@@ -49,32 +48,25 @@ The service declares the work exchange, queue, and work binding. It declares a d
 - Java 25.
 - A RabbitMQ broker reachable by the application.
 - Amazon SES configured for the account and region used by the service, with a verified sender.
-- PostgreSQL for the configured datasource. `compose.yaml` starts a local PostgreSQL container only.
 - Docker only if building/running the provided image.
 
 ## Quick start
 
-1. Review [configuration](docs/configuration.md) and set credentials in your environment or secret manager. Do not commit secrets. The checked-in configuration currently contains hard-coded RabbitMQ and AWS credentials; treat them as exposed and rotate them before use.
-2. Start the local database:
-
-   ```sh
-   docker compose up -d postgres
-   ```
-
-3. Set the required RabbitMQ and AWS environment configuration for the application. Connect it to a reachable broker and SES account; no RabbitMQ container is provided by Compose.
-4. Build and test:
+1. Review [configuration](docs/configuration.md) and provide RabbitMQ and AWS configuration through your environment or a secret manager. Do not commit credentials.
+2. Connect the service to a reachable RabbitMQ broker and an authorized SES account. No RabbitMQ container is provided by Compose.
+3. Build and test:
 
    ```sh
    ./mvnw clean test
    ```
 
-5. Run:
+4. Run:
 
    ```sh
    ./mvnw spring-boot:run
    ```
 
-The configured web-server port is `8081`. There is no business HTTP API or health endpoint; Springdoc exposes generated API documentation endpoints (`/v3/api-docs` and `/swagger-ui.html`) by default. Startup also depends on external infrastructure and usable configuration. For a message example, see [message contract](docs/message-contract.md).
+The service does not use a database; PostgreSQL is not required to build or run it. The configured web-server port is `8081`. There is no business HTTP API or health endpoint; Springdoc exposes generated API documentation endpoints (`/v3/api-docs` and `/swagger-ui.html`) by default. Startup depends on a reachable RabbitMQ broker and valid AWS SES configuration. For a message example, see [message contract](docs/message-contract.md).
 
 ## Minimal message example
 

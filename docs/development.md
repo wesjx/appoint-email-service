@@ -58,6 +58,6 @@ Exchange/queue/routing-key settings appear under `app.rabbitmq.*`; connection an
 - Hard-coded broker/AWS credentials and inconsistent AWS property sources.
 - SES exceptions are logged and suppressed.
 - No schema validation, idempotency, status persistence, DLQ binding, metrics, health endpoint, integration tests, or CI workflow.
-- Stale/unused dependencies and configuration: database/JPA/Flyway settings without email persistence, and Spring Mail starter though email sends through SES.
+- The Spring Mail starter is present although the application sends through SES. No database or persistence layer is used.
 - Template references `year`, but the strategy does not pass it.
 - Dockerfile port differs from application port.

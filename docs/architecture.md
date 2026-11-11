@@ -98,7 +98,7 @@ Listener retry/rejection behavior is detailed in [error handling](error-handling
 - **Broker-based scaling:** multiple consumers can be deployed against the same queue, but processing order is not guaranteed across concurrent consumers and duplicate effects are possible.
 - **Strategy/template separation:** a strategy builds email content, the renderer resolves a named template, and the gateway submits it. The extension point exists, but additional strategies and formal contract validation are absent.
 - **Failure isolation is incomplete:** listener retries exist, but SES service exceptions are swallowed. The configured dead-letter route has no queue binding in the repository.
-- **Persistence is not part of the email flow:** PostgreSQL/JPA configuration and dependencies exist, but no email entity or repository is present. There is no durable processing audit maintained by the application.
+- **No database dependency:** the application does not use a database or persist email processing records. There is no durable processing audit maintained by the application.
 
 ## External dependencies
 
@@ -106,6 +106,5 @@ Listener retry/rejection behavior is detailed in [error handling](error-handling
 |---|---|---|
 | RabbitMQ | Request transport and listener queue | Connection properties and topology beans are configured; broker deployment is external |
 | Amazon SES | Outbound HTML email | SDK client and gateway implemented |
-| PostgreSQL | Configured Spring datasource | Compose starts PostgreSQL; email persistence is not implemented |
 
 No business HTTP endpoints, health checks, metrics, or application-specific exception handlers are implemented. The Springdoc dependency exposes generated `/v3/api-docs` and `/swagger-ui.html` endpoints by default, even though there are no application controllers.
